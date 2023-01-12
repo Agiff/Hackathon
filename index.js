@@ -332,6 +332,97 @@ function checkout (currentUser, userDB) {
   }
 }
 
+
 // console.log(checkout(currentUser, userDB));
 // currentUser = 'user-1';
 // checkout(currentUser, userDB)
+
+// start of search fiture
+
+function getUnique (arrayObat){
+  let result = [];
+  for (let i = 0; i < arrayObat.length; i++) {
+    let flag = false;
+    for (let j = 0; j < result.length; j++) {
+      if (arrayObat[i] === result[j]) {
+        flag = true;
+        break;
+      }
+    }
+    if (flag) {
+      continue;
+    } else {
+      result.push(arrayObat[i])
+    }
+  }
+  return result;
+}
+
+function nameToArray (input){
+  let arrInput = [];
+  let tempString = '';
+  for (let i = 0; i <= input.length; i++){
+    if (input[i] === ' ' || !input[i]){
+      arrInput.push(tempString.toLowerCase());
+      tempString = '';
+    } else {
+      tempString += input[i];
+    }
+  }
+  return arrInput;
+}
+
+function searchName (input, listOfProduct){
+  let result = [];
+  let inputList = nameToArray(input);
+  for (let i = 0; i < inputList.length; i++){
+    for (let j = 0; j < listOfProduct.length; j++){
+      let arrayNamaProduct = nameToArray (listOfProduct[j].name);
+      for (let k = 0; k < arrayNamaProduct.length; k++){
+        if (inputList[i] === arrayNamaProduct[k]){
+          result.push (listOfProduct[j])
+        }
+      }
+    }
+  }
+  result = getUnique(result)
+  return result;
+}
+
+// console.log (searchName('promag', productList))
+// console.log (nameToArray('Miconazole cream 2%'))
+
+//end of search fiture
+
+
+//start of filter fiture
+
+function filterHarga (input, productList){
+  let result = productList
+  if (input === 'Terendah'){
+    for (let i = 0; i < result.length - 1; i++){
+      if (result[i]['price'] > result[i+1]['price']){
+        let biggerNumber = result[i];
+        let lowerNumber = result[i+1];
+        result[i] = lowerNumber;
+        result[i+1] = biggerNumber;
+        i = -1
+      }
+    }
+  } else if (input === 'Tertinggi') {
+    for (let i = 0; i < result.length - 1; i++){
+      if (result[i]['price'] < result[i+1]['price']){
+        let biggerNumber = result[i+1];
+        let lowerNumber = result[i];
+        result[i] = biggerNumber;
+        result[i+1] = lowerNumber;
+        i = -1
+      }
+    }
+  }
+  return result
+}
+
+console.log (filterHarga('Tertinggi', productList))
+
+//end of filter fiture
