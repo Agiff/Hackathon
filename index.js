@@ -5,24 +5,7 @@ let userDB = [
     email: 'ghifarimohammadrahadian@gmail.com',
     password: 'qwerty',
     saldo: 100000,
-    cart: [
-      {
-        id: 'item-3',
-        name: 'Promag Cair',
-        price: 15000,
-        image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062688211618504795/apotek_online_k24klik_20201127030453359225_PROMAG-SUS.png',
-        description: 'Promag cair untuk mengurangi gejala yang berhubungan dengan kelebihan asam lambung, gastritis, tukak lambung, dan tukak usus 12 jari.',
-        amount: 1
-      },
-      {
-       id: 'item-4',
-        name: 'Miconazole Cream 2%',
-        price: 6000,
-        image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062690248477380679/0116b0043.png',
-        description: 'salep krim anti jamur',
-        amount: 1
-      } 
-    ]
+    cart: []
   },
   {
     id: 'user-1',
@@ -255,7 +238,7 @@ let produkPilihan =     {
 };
 
 // currentUser = 'user-0';
-addToCart(currentUser, produkPilihan, userDB);
+// addToCart(currentUser, produkPilihan, userDB);
 // console.log(userDB[0]);
 
 function removeFromCart (currentUser, product, userDB) {
@@ -320,17 +303,22 @@ function checkout (currentUser, userDB) {
       if (userCart.length > 0) {
         for (const cartItem of userCart) {
           const itemPrice = cartItem.price;
-          totalPrice = totalPrice + itemPrice;
+          const itemAmount = cartItem.amount;
+          totalPrice = totalPrice + itemPrice * itemAmount;
         }
         if (userSaldo >= totalPrice) {
           userAccount.saldo -= totalPrice;
-          console.log('Pembayaran sukses!');
-          console.log(`Sisa saldo Anda adalah ${userAccount.saldo}`);
+          delete userAccount.cart;
+          userAccount.cart = [];
+          cartWindow.innerHTML = '';
+          cartContent(currentUser, userDB);
+          alert(`Pembayaran sukses!
+Sisa saldo Anda adalah ${userAccount.saldo}`);
         } else {
-          console.log('Maaf saldo anda tidak mencukupi untuk melakukan pembayaran');
+          alert('Maaf saldo anda tidak mencukupi untuk melakukan pembayaran');
         }
       } else {
-        console.log('Silahkan masukkan barang yang ingin Anda beli ke dalam keranjang');
+        alert('Silahkan masukkan barang yang ingin Anda beli ke dalam keranjang');
       }
     }
   }
@@ -459,7 +447,7 @@ function filterHarga (input, productList){
  * 
 */
 
-let listProduk = document.querySelector('.box-container');
+let listProduk = document.querySelector('.box-container'); //Product List Container
 
 let defaultOption = 'Lowest';
 
@@ -492,7 +480,8 @@ function renderProduct() {
 
     addToCartButton.addEventListener('click', function() {
       addToCart(currentUser, produk, userDB);
-      console.log(userDB[0]);
+      cartWindow.innerHTML = '';
+      cartContent(currentUser, userDB);
     })
   
     productCard.appendChild(productImage); // img > productCard(div)
@@ -532,7 +521,7 @@ document.querySelector('#cart-button').onclick = () => {
   searchForm.classList.remove('active');
 };
 
-const cartWindow = document.querySelector('.shopping-cart');
+const cartWindow = document.querySelector('.shopping-cart'); //Shopping Cart Container
 
 function cartContent (currentUser, userDB) {
   for (const userAccount of userDB) {
@@ -542,7 +531,7 @@ function cartContent (currentUser, userDB) {
 
       for (const cartItem of userCart) {
         let { id, name, image, price, description, amount } = cartItem;
-        totalBelanjaan = totalBelanjaan + price;
+        totalBelanjaan = totalBelanjaan + (price * amount);
         // create <div class="box"></div>
         const productCard = document.createElement('div');
         productCard.className = 'box'
@@ -550,6 +539,11 @@ function cartContent (currentUser, userDB) {
         // create <i class="fas fa-trash"></i>
         const deleteIcon = document.createElement('i');
         deleteIcon.className = 'fas fa-trash';
+        deleteIcon.addEventListener('click', function() {
+          removeFromCart(currentUser, cartItem, userDB);
+          cartWindow.innerHTML = '';
+          cartContent(currentUser, userDB);
+        })
 
         // create <img src="images/cart-img-bodrex.png" alt="">
         const cartImage = document.createElement('img');
@@ -595,6 +589,10 @@ function cartContent (currentUser, userDB) {
       const checkoutButton = document.createElement('a');
       checkoutButton.className = 'button';
       checkoutButton.innerText = 'Checkout';
+
+      checkoutButton.addEventListener('click', function() {
+        checkout(currentUser, userDB)
+      })
 
       cartWindow.appendChild(totalContainer);
       cartWindow.appendChild(checkoutButton);
