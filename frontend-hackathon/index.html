@@ -9,7 +9,7 @@
 
   <!-- font awesome cdn link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
   <!-- custom css file link -->
   <link rel="stylesheet" href="style.css">
 </head>
@@ -20,11 +20,15 @@
 
     <!-- logo and pharmacy store name -->
     <a href="#" class="logo"><i class="fa-solid fa-prescription-bottle-medical"></i> Pharstore</a>
+    <div>
 
+    </div>
     <!-- search and shopping cart icons -->
     <div class="icons">
       <div class="fa-solid fa-magnifying-glass" id="search-button"></div>
       <div class="fa-solid fa-cart-shopping" id="cart-button"></div>
+      <button class="button" id="reg-button" type="button" style="margin-left: 50px;"> Sign-up </button>
+      <button class="button" id="log-button" type="button" style="margin-left: 10px;"> Login </button>
     </div>
 
     <!-- search form  -->
@@ -48,7 +52,7 @@
       </div>
 
       <!-- shopping cart content -->
-      <div class="box">
+      <!-- <div class="box">
         <i class="fas fa-trash"></i>
         <img src="images/cart-img-bodrex.png" alt="">
         <div class="content">
@@ -56,19 +60,86 @@
           <span class="price">Rp.3000</span>
           <span class="quantity">qty: 1</span>
         </div>
-      </div>
+      </div> -->
 
       <!-- shopping cart total -->
-      <div class="total">Total : Rp. 6000</div>
-      <a href="" class="button">Checkout</a>
+      <!-- <div class="total">Total : Rp. 6000</div>
+      <a href="" class="button">Checkout</a> -->
     </div>
 
   </header>
+
   <!-- header section end -->
 
   <!-- home section start -->
   <section class="home" id="home">
+    <!-- The Modal -->
+    <div id="ModalReg" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" id="close-reg">&times;</span>
+        <form action="#" class="form-register" style="display: flex; flex-direction: column;">
 
+          <div class="mb-3 row">
+            <label for="staticEmail" class="col-sm-2 col-form-label" style="font-size: 2rem;">Nama</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" style="height: 32px">
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="staticEmail" class="col-sm-2 col-form-label" style="font-size: 2rem;">Email</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="staticEmail" style="height: 32px">
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label for="inputPassword" class="col-sm-2 col-form-label" style="font-size: 2rem;" >Password</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="inputPassword" style="height: 32px">
+            </div>
+          </div>
+
+          <button type="button" class="button" > sign-up </button>
+        </form>
+      </div>
+    </div>
+
+    <div id="ModalLog" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close" id="close-log">&times;</span>
+
+        <div class="mb-3 row">
+          <label for="staticEmail" class="col-sm-2 col-form-label" style="font-size: 2rem;">Email</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="staticEmail" style="height: 32px">
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="inputPassword" class="col-sm-2 col-form-label" style="font-size: 2rem;" >Password</label>
+          <div class="col-sm-10">
+            <input type="password" class="form-control" id="inputPassword" style="height: 32px">
+          </div>
+        </div>
+
+        <button type="button" class="button">login</button>
+        <!-- <form action="#" class="form-login" style="display: flex; flex-direction: column;">
+          <div>
+            <label for="email" style="font-size: 2rem;">Email:</label>
+            <input type="text" name="email" required style="border: 1px black solid">
+          </div>
+          <div>
+            <label for="password" style="font-size: 2rem;">password:</label>
+            <input type="password" name="password" required style="border: 1px black solid">
+          </div>
+          <button type="button" class="button" style="width: fit-content;"> login </button>
+        </form> -->
+      </div>
+
+    </div>
     <!-- home section content -->
     <div class="content">
       <h3>medicine that makes you <span>healthier</span> as before</h3>
@@ -136,6 +207,7 @@
   <!-- product section end -->
 
   <!-- custom js file link -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
   <script src="script.js"></script>
 </body>
 
