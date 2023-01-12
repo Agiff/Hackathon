@@ -408,7 +408,7 @@ function searchName(input, listOfProduct) {
   return result;
 }
 
-console.log (searchName('ear', productList))
+// console.log (searchName('ear', productList))
 // console.log (nameToArray('Miconazole cream 2%'))
 
 //end of search fiture
@@ -455,13 +455,12 @@ function filterHarga (input, productList){
  * 
 */
 
-let listProduk = document.querySelector('.box-container');
+const listProduk = document.querySelector('.box-container');
 
 let defaultOption = 'Lowest';
 
 function renderProduct() {
   let arrayProduk = filterHarga(defaultOption, productList);
-  console.log(arrayProduk);
   
   for (const produk of arrayProduk) {
     const { id, name, image, price, description } = produk;
@@ -487,6 +486,10 @@ function renderProduct() {
     addToCartButton.classList.add('button');
     addToCartButton.innerHTML = 'Add To Cart';
 
+    addToCartButton.addEventListener('click', function() {
+      console.log(produk);
+    })
+
     productCard.appendChild(productImage); // img > productCard(div)
     productCard.appendChild(productName); // h3 > productCard(div)
     productCard.appendChild(productPrice); // p > productCard(div)
@@ -509,3 +512,112 @@ filterOption.addEventListener('change', function() {
     renderProduct();
   }
 });
+
+let shoppingCart = document.querySelector('.shopping-cart');
+
+document.querySelector('#cart-button').onclick = () => {
+  cartWindow.innerHTML = '';
+  cartContent(currentUser, userDB);
+  // console.log(shoppingCart.classList.toggle('active'));
+  shoppingCart.classList.toggle('active');
+  searchForm.classList.remove('active');
+};
+
+const cartWindow = document.querySelector('.shopping-cart');
+
+function cartContent (currentUser, userDB) {
+  for (const userAccount of userDB) {
+    const userCart = userAccount.cart;
+    if (userAccount.id === currentUser) {
+      let totalBelanjaan = 0;
+
+      for (const cartItem of userCart) {
+        let { id, name, image, price, description, amount } = cartItem;
+        totalBelanjaan = totalBelanjaan + price;
+        // create <div class="box"></div>
+        const productCard = document.createElement('div');
+        productCard.className = 'box'
+
+        // create <i class="fas fa-trash"></i>
+        const deleteIcon = document.createElement('i');
+        deleteIcon.className = 'fas fa-trash';
+
+        // create <img src="images/cart-img-bodrex.png" alt="">
+        const cartImage = document.createElement('img');
+        cartImage.setAttribute('src', image);
+
+        // create <div class="content">
+        const cartContentCard = document.createElement('div');
+        cartContentCard.classList.add('content');
+
+        // create <h3>Bodrex</h3>
+        const cartContentName = document.createElement('h3');
+        if (name.length > 15) {
+          name = `${name.substring(0, 15)}...`
+        }
+        cartContentName.innerText = name;
+
+        // create <span class="price">Rp.3000</span>
+        const cartContentPrice = document.createElement('span');
+        cartContentPrice.className = 'price';
+        cartContentPrice.innerText = price;
+
+        // create <span class="quantity">qty: 1</span>
+        const cartContentQuantity = document.createElement('span');
+        cartContentQuantity.className = 'quantity';
+        cartContentQuantity.innerText = `Qty: ${amount}`;
+
+        cartContentCard.appendChild(cartContentName);
+        cartContentCard.appendChild(cartContentPrice);
+        cartContentCard.appendChild(cartContentQuantity);
+
+        productCard.appendChild(deleteIcon);
+        productCard.appendChild(cartImage);
+        productCard.appendChild(cartContentCard);
+        cartWindow.appendChild(productCard);
+      }
+
+      // create <div class="total">Total : Rp. 6000</div>
+      const totalContainer = document.createElement('div');
+      totalContainer.classList.add('total');
+      totalContainer.innerText = `Total: Rp. ${totalBelanjaan}`;
+
+      // create <a href="" class="button">Checkout</a>
+      const checkoutButton = document.createElement('a');
+      checkoutButton.className = 'button';
+      checkoutButton.innerText = 'Checkout';
+
+      cartWindow.appendChild(totalContainer);
+      cartWindow.appendChild(checkoutButton);
+    }
+  }
+}
+
+/*
+  <!-- shopping cart total -->
+  <div class="total">Total : Rp. 6000</div>
+  <a href="" class="button">Checkout</a>
+  
+  <div class="box">
+    <i class="fas fa-trash"></i>
+    <img src="images/cart-img-bodrex.png" alt="">
+    <div class="content">
+      <h3>Bodrex</h3>
+      <span class="price">Rp.3000</span>
+      <span class="quantity">qty: 1</span>
+    </div>
+  </div>
+
+  <!-- shopping cart content -->
+  <div class="box">
+    <i class="fas fa-trash"></i>
+    <img src="images/cart-img-bodrex.png" alt="">
+    <div class="content">
+      <h3>Bodrex</h3>
+      <span class="price">Rp.3000</span>
+      <span class="quantity">qty: 1</span>
+    </div>
+  </div>
+
+  
+*/
