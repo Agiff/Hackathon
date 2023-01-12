@@ -37,7 +37,7 @@ const globalCurrentUser = { id: 'user-1' };
 
 function login (currentUser, userDB) {
   if (!currentUser.email || !currentUser.password) {
-    return alert('email atau password kosong');
+    return alert('Email atau password kosong.');
   }
 
   const userName = currentUser.email;
@@ -58,10 +58,11 @@ function login (currentUser, userDB) {
   }
 
   if (!loginChecker) {
-    return alert('email tidak terdaftar atau password salah');
+    return alert('Email tidak terdaftar atau password salah.');
   }
 
   globalCurrentUser.id = userId;
+  modalLog.style.display = "none";
   return alert(`Selamat datang ${namaUser}!`);
 }
 
@@ -79,7 +80,7 @@ function register (inputUserData, userDB) {
   let userExisted = false;
 
   if (!inputName || !inputEmail || !inputPassword) {
-    return 'input invalid';
+    return alert('Invalid input!');
   }
 
   for (const accountData of userDB) { //check existing email
@@ -91,7 +92,7 @@ function register (inputUserData, userDB) {
   }
 
   if (userExisted) {
-    return 'email sudah terdaftar, silahkan daftar menggunakan email lain';
+    return alert('Email sudah terdaftar, silahkan daftar menggunakan email lain.');
   }
 
   let accountNumber = 0; //create new ID
@@ -121,7 +122,8 @@ function register (inputUserData, userDB) {
     cart: []
   });
 
-  return userDB;
+  modalReg.style.display = "none";
+  return alert('Akun telah berhasil dibuat.');
 }
 
 let createNewUser = {};
@@ -827,3 +829,29 @@ registerForm.addEventListener('submit', e => {
 const inputRegisterName = document.getElementById("register-name");
 const inputRegisterEmail = document.getElementById("register-email");
 const inputRegisterPassword = document.getElementById("register-password");
+
+// fitur pop-up registrasi form dan login
+var modalReg = document.getElementById("ModalReg");
+var regBtn = document.getElementById("reg-button");
+var closeReg = document.getElementById("close-reg");
+
+regBtn.onclick = function() {
+  modalLog.style.display = "none";
+  modalReg.style.display = "block";
+}
+
+closeReg.onclick = function() {
+  modalReg.style.display = "none";
+}
+
+var modalLog = document.getElementById("ModalLog");
+var logBtn = document.getElementById("log-button");
+var closeLog = document.getElementById("close-log")
+
+logBtn.onclick = function() {
+  modalReg.style.display = "none";
+  modalLog.style.display = "block";
+}
+closeLog.onclick = function() {
+  modalLog.style.display = "none";
+}
