@@ -266,7 +266,7 @@ function removeFromCart (currentUser, product, userDB) {
         const productId = product.id;
         
         if (productId === cartItemId) {
-          userCart.splice(i, 1)
+          userCart.splice(i, 1);
         }
       }
     }
@@ -283,12 +283,16 @@ function updateCartAmount(currentUser, product, value, userDB) {
     const userCart = userAccount.cart;
     
     if (currentUser === accountId) {
-      for (const cartItem of userCart) {
+      for (let i = 0; i < userCart.length; i++) {
+        const cartItem = userCart[i];
         const cartItemId = cartItem.id;
         const productId = product.id;
         
         if (productId === cartItemId) {
           cartItem.amount = cartItem.amount + value;
+          if (cartItem.amount === 0) {
+            userCart.splice(i, 1);
+          }
         }
       }
     }
@@ -297,9 +301,9 @@ function updateCartAmount(currentUser, product, value, userDB) {
 
 let updateValue = -1;
 
-// updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
+updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
 
-// console.log(userDB[0]);
+console.log(userDB[0]);
 
 function checkout (currentUser, userDB) {
   for (const userAccount of userDB) {
@@ -330,4 +334,4 @@ function checkout (currentUser, userDB) {
 
 // console.log(checkout(currentUser, userDB));
 // currentUser = 'user-1';
-checkout(currentUser, userDB)
+// checkout(currentUser, userDB)
