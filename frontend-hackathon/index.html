@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pharmacy Store</title>
+
+  <!-- font awesome cdn link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  
+  <!-- custom css file link -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- header section start -->
+  <header class="header">
+    
+    <!-- logo and pharmacy store name -->
+    <a href="#" class="logo"><i class="fa-solid fa-prescription-bottle-medical"></i>    Pharstore</a>
+    
+    <!-- search and shopping cart icons -->
+    <div class="icons">
+      <div class="fa-solid fa-magnifying-glass" id="search-button"></div>
+      <div class="fa-solid fa-cart-shopping" id="cart-button"></div>
+    </div>
+    
+    <!-- search form  -->
+    <form action="" class="search-form">
+      <input type="search" id="search-box" placeholder="search here...">
+      <label for="search-box" class="fas fa-search"></label>
+    </form>
+
+    <!-- shopping cart form -->
+    <div class="shopping-cart">
+
+      <!-- shopping cart content -->
+      <div class="box">
+        <i class="fas fa-trash"></i>
+        <img src="images/cart-img-bodrex.png" alt="">
+        <div class="content">
+          <h3>Bodrex</h3>
+          <span class="price">Rp.3000</span>
+          <span class="quantity">qty: 1</span>
+        </div>
+      </div>
+
+      <!-- shopping cart content -->
+      <div class="box">
+        <i class="fas fa-trash"></i>
+        <img src="images/cart-img-bodrex.png" alt="">
+        <div class="content">
+          <h3>Bodrex</h3>
+          <span class="price">Rp.3000</span>
+          <span class="quantity">qty: 1</span>
+        </div>
+      </div>
+
+      <!-- shopping cart total -->
+      <div class="total">Total : Rp. 6000</div>
+      <a href="" class="button">Checkout</a>
+    </div>
+
+  </header>
+  <!-- header section end -->
+
+  <!-- home section start -->
+  <section class="home" id="home">
+    
+    <!-- home section content -->
+    <div class="content">
+      <h3>medicine that makes you <span>healthier</span> as before</h3>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est libero nisi perferendis omnis. Deleniti, porro?</p>
+      <a href="#products" class="button">Shop Now</a>
+    </div>
+  </section>
+  <!-- home section end -->
+
+  <!-- products section start -->
+  <section class="products" id="products">
+    <h1 class="heading">Our Products</h1>
+
+      <!-- price filter form -->
+      <form class="form-filter">
+        <label for="sort-by">Sort by:</label>
+        <select class="sort-by" id="sort-by">
+          <option value="lowest">Lowest</option>
+          <option value="highest">highest</option>
+        </select>
+      </form>
+    
+      <!-- product container -->
+    <div class="box-container">
+
+      <!-- product item -->
+      <div class="box">
+        <img src="images/cart-img-bodrex.png" alt="">
+        <h3>Bodrex</h3>
+        <p>Rp. 3000</p>
+        <a href="#" class="button">Add to Cart</a>
+      </div>
+
+      <!-- product item -->
+      <div class="box">
+        <img src="images/cart-img-bodrex.png" alt="">
+        <h3>Bodrex</h3>
+        <p>Rp. 3000</p>
+        <a href="#" class="button">Add to Cart</a>
+      </div>
+
+      <!-- product item -->
+      <div class="box">
+        <img src="images/cart-img-bodrex.png" alt="">
+        <h3>Bodrex</h3>
+        <p>Rp. 3000</p>
+        <a href="#" class="button">Add to Cart</a>
+      </div>
+
+      <!-- product item -->
+      <div class="box">
+        <img src="images/cart-img-bodrex.png" alt="">
+        <h3>Bodrex</h3>
+        <p>Rp. 3000</p>
+        <a href="#" class="button">Add to Cart</a>
+      </div>
+
+      <!-- product item -->
+      <div class="box">
+        <img src="images/cart-img-bodrex.png" alt="">
+        <h3>Bodrex</h3>
+        <p>Rp. 3000</p>
+        <a href="#" class="button">Add to Cart</a>
+      </div>
+
+      <!-- product item -->
+      <div class="box">
+        <img src="images/cart-img-bodrex.png" alt="">
+        <h3>Bodrex</h3>
+        <p>Rp. 3000</p>
+        <a href="#" class="button">Add to Cart</a>
+      </div>
+    </div>
+  </section>
+  <!-- product section end -->
+
+  <!-- custom js file link -->
+  <script src="script.js"></script>
+</body>
+</html>
