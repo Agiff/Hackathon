@@ -256,7 +256,7 @@ let produkPilihan =     {
 
 // currentUser = 'user-0';
 addToCart(currentUser, produkPilihan, userDB);
-console.log(userDB[0]);
+// console.log(userDB[0]);
 
 function removeFromCart (currentUser, product, userDB) {
   for (const userAccount of userDB) {
@@ -465,7 +465,6 @@ let defaultOption = 'Lowest';
 
 function renderProduct() {
   let arrayProduk = filterHarga(defaultOption, productList);
-  console.log(arrayProduk);
   
   for (const produk of arrayProduk) {
     const { id, name, image, price, description } = produk;
@@ -493,11 +492,7 @@ function renderProduct() {
 
     addToCartButton.addEventListener('click', function() {
       addToCart(currentUser, produk, userDB);
-      // console.log(currentUser);
       console.log(userDB[0]);
-    })
-    addToCartButton.addEventListener('click', function() {
-      console.log(produk);
     })
   
     productCard.appendChild(productImage); // img > productCard(div)
@@ -514,19 +509,13 @@ function renderProduct() {
   }
 }
 
-// renderProduct();
+renderProduct();
 
-// const filterOption = document.getElementById('sort-by');
+const filterOption = document.getElementById('sort-by');
 
-// filterOption.addEventListener('change', function() {
-//   const selectedOption = filterOption.options[filterOption.selectedIndex];
+filterOption.addEventListener('change', function() {
+  const selectedOption = filterOption.options[filterOption.selectedIndex];
   
-//   if (defaultOption !== selectedOption.value) {
-//     defaultOption = selectedOption.value;
-//     listProduk.innerHTML = '';
-//     renderProduct();
-//   }
-// });
   if (defaultOption !== selectedOption.value) {
     defaultOption = selectedOption.value;
     listProduk.innerHTML = '';
@@ -539,7 +528,6 @@ let shoppingCart = document.querySelector('.shopping-cart');
 document.querySelector('#cart-button').onclick = () => {
   cartWindow.innerHTML = '';
   cartContent(currentUser, userDB);
-  // console.log(shoppingCart.classList.toggle('active'));
   shoppingCart.classList.toggle('active');
   searchForm.classList.remove('active');
 };
