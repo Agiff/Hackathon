@@ -47,6 +47,19 @@ section {
   color: var(--black);
 }
 
+.form-filter {
+  font-size: 1.7rem;
+  padding: 1rem 0;
+}
+
+.sort-by {
+  width: 15%;
+  padding: 0px 8px 0px 8px;
+  border-radius: 3px;
+  font-size: 1.7rem;
+  height: 35px
+}
+
 .button {
   margin-top: 1rem;
   display: inline-block;
