@@ -4,7 +4,7 @@ let userDB = [
     name: 'Mohammad Rahadian Ghifari',
     email: 'ghifarimohammadrahadian@gmail.com',
     password: 'qwerty',
-    saldo: 0,
+    saldo: 100000,
     cart: [
       {
         id: 'item-3',
@@ -167,7 +167,7 @@ function updateSaldo (currentUser, amount, userDB) { //Done
 
 let currentUser = 'user-0';
 
-userDB = updateSaldo(currentUser, 1000000, userDB);
+// userDB = updateSaldo(currentUser, 1000000, userDB);
 
 // console.log(userDB);
 
@@ -297,13 +297,37 @@ function updateCartAmount(currentUser, product, value, userDB) {
 
 let updateValue = -1;
 
-updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
+// updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
 
-console.log(userDB[0]);
+// console.log(userDB[0]);
 
-// function checkout () {
-  
-// }
+function checkout (currentUser, userDB) {
+  for (const userAccount of userDB) {
+    const accountId = userAccount.id;
+    const userCart = userAccount.cart;
+    const userSaldo = userAccount.saldo;
+    let totalPrice = 0;
+    
+    if (currentUser === accountId) {
+      if (userCart.length > 0) {
+        for (const cartItem of userCart) {
+          const itemPrice = cartItem.price;
+          totalPrice = totalPrice + itemPrice;
+        }
+        if (userSaldo >= totalPrice) {
+          userAccount.saldo -= totalPrice;
+          console.log('Pembayaran sukses!');
+          console.log(`Sisa saldo Anda adalah ${userAccount.saldo}`);
+        } else {
+          console.log('Maaf saldo anda tidak mencukupi untuk melakukan pembayaran');
+        }
+      } else {
+        console.log('Silahkan masukkan barang yang ingin Anda beli ke dalam keranjang');
+      }
+    }
+  }
+}
 
-// console.log(checkout(currentUser, cart, userDB));
-
+// console.log(checkout(currentUser, userDB));
+// currentUser = 'user-1';
+checkout(currentUser, userDB)
