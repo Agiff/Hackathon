@@ -4,7 +4,7 @@ let userDB = [
     name: 'Mohammad Rahadian Ghifari',
     email: 'ghifarimohammadrahadian@gmail.com',
     password: 'qwerty',
-    saldo: 0,
+    saldo: 100000,
     cart: [
       {
         id: 'item-3',
@@ -167,7 +167,7 @@ function updateSaldo (currentUser, amount, userDB) { //Done
 
 let currentUser = 'user-0';
 
-userDB = updateSaldo(currentUser, 1000000, userDB);
+// userDB = updateSaldo(currentUser, 1000000, userDB);
 
 // console.log(userDB);
 
@@ -251,7 +251,7 @@ let produkPilihan = {
 };
 
 // currentUser = 'user-1';
-addToCart(currentUser, produkPilihan, userDB);
+// addToCart(currentUser, produkPilihan, userDB);
 // console.log(userDB);
 
 function removeFromCart (currentUser, product, userDB) {
@@ -266,25 +266,78 @@ function removeFromCart (currentUser, product, userDB) {
         const productId = product.id;
         
         if (productId === cartItemId) {
-          userCart.splice(i, 1)
+          userCart.splice(i, 1);
         }
       }
     }
   }
 }
 
-removeFromCart(currentUser, produkPilihan, userDB);
+// removeFromCart(currentUser, produkPilihan, userDB);
 
 // console.log(userDB[0]);
 
-// function checkout () {
-  
-// }
+function updateCartAmount(currentUser, product, value, userDB) {
+  for (const userAccount of userDB) {
+    const accountId = userAccount.id;
+    const userCart = userAccount.cart;
+    
+    if (currentUser === accountId) {
+      for (let i = 0; i < userCart.length; i++) {
+        const cartItem = userCart[i];
+        const cartItemId = cartItem.id;
+        const productId = product.id;
+        
+        if (productId === cartItemId) {
+          cartItem.amount = cartItem.amount + value;
+          if (cartItem.amount === 0) {
+            userCart.splice(i, 1);
+          }
+        }
+      }
+    }
+  }
+}
 
-// console.log(checkout(currentUser, cart, userDB));
+let updateValue = -1;
+
+// updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
+
+// console.log(userDB[0]);
+
+function checkout (currentUser, userDB) {
+  for (const userAccount of userDB) {
+    const accountId = userAccount.id;
+    const userCart = userAccount.cart;
+    const userSaldo = userAccount.saldo;
+    let totalPrice = 0;
+    
+    if (currentUser === accountId) {
+      if (userCart.length > 0) {
+        for (const cartItem of userCart) {
+          const itemPrice = cartItem.price;
+          totalPrice = totalPrice + itemPrice;
+        }
+        if (userSaldo >= totalPrice) {
+          userAccount.saldo -= totalPrice;
+          console.log('Pembayaran sukses!');
+          console.log(`Sisa saldo Anda adalah ${userAccount.saldo}`);
+        } else {
+          console.log('Maaf saldo anda tidak mencukupi untuk melakukan pembayaran');
+        }
+      } else {
+        console.log('Silahkan masukkan barang yang ingin Anda beli ke dalam keranjang');
+      }
+    }
+  }
+}
 
 
-// start of searh fiture
+// console.log(checkout(currentUser, userDB));
+// currentUser = 'user-1';
+// checkout(currentUser, userDB)
+
+// start of search fiture
 
 function getUnique(arrayObat) {
   let result = [];
@@ -365,7 +418,7 @@ console.log (searchName('ear', productList))
 
 function filterHarga (input, productList){
   let result = productList
-  if (input === 'Terendah'){
+  if (input === 'Lowest'){
     for (let i = 0; i < result.length - 1; i++){
       if (result[i]['price'] > result[i+1]['price']){
         let biggerNumber = result[i];
@@ -375,7 +428,7 @@ function filterHarga (input, productList){
         i = -1
       }
     }
-  } else if (input === 'Tertinggi') {
+  } else if (input === 'Highest') {
     for (let i = 0; i < result.length - 1; i++){
       if (result[i]['price'] < result[i+1]['price']){
         let biggerNumber = result[i+1];
@@ -393,4 +446,66 @@ function filterHarga (input, productList){
 
 //end of filter fiture
 
+/**
+ * 
+ * 
+ * ================ DOM =================
+ * 
+ * 
+ * 
+*/
 
+let listProduk = document.querySelector('.box-container');
+
+let defaultOption = 'Lowest';
+
+function renderProduct() {
+  let arrayProduk = filterHarga(defaultOption, productList);
+  console.log(arrayProduk);
+  
+  for (const produk of arrayProduk) {
+    const { id, name, image, price, description } = produk;
+
+    // create <div class="box"></div>
+    const productCard = document.createElement('div');
+    productCard.classList.add('box');
+    
+    // create <img src=image>
+    const productImage = document.createElement('img');
+    productImage.setAttribute('src', image);
+
+    // create <h3>Bodrex</h3>
+    const productName = document.createElement('h3');
+    productName.innerText = name;
+
+    // create <p>Rp. 3000</p>
+    const productPrice = document.createElement('p');
+    productPrice.innerText = `Rp. ${price}`;
+
+    // create <a href="#" class="button">Add to Cart</a>
+    const addToCartButton = document.createElement('a');
+    addToCartButton.classList.add('button');
+    addToCartButton.innerHTML = 'Add To Cart';
+
+    productCard.appendChild(productImage); // img > productCard(div)
+    productCard.appendChild(productName); // h3 > productCard(div)
+    productCard.appendChild(productPrice); // p > productCard(div)
+    productCard.appendChild(addToCartButton); // p > productCard(div)
+
+    listProduk.appendChild(productCard); // productCard(div) > parent
+  }
+}
+
+renderProduct();
+
+const filterOption = document.getElementById('sort-by');
+
+filterOption.addEventListener('change', function() {
+  const selectedOption = filterOption.options[filterOption.selectedIndex];
+  
+  if (defaultOption !== selectedOption.value) {
+    defaultOption = selectedOption.value;
+    listProduk.innerHTML = '';
+    renderProduct();
+  }
+});
