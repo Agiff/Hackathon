@@ -1,4 +1,4 @@
-let userAccounts = [
+let userDB = [
   {
     id: 'user-0',
     name: 'Mohammad Rahadian Ghifari',
@@ -50,7 +50,7 @@ let userAccounts = [
   },
 ];
 
-function login (currentUser, userAccounts) {
+function login (currentUser, userDB) {
   if (!currentUser.email || !currentUser.password) {
     return 'email atau password kosong';
   }
@@ -59,9 +59,9 @@ function login (currentUser, userAccounts) {
   const userPassword = currentUser.password;
   let loginChecker = false;
 
-  for (const dataUserAccounts of userAccounts) {
-    const checkName = dataUserAccounts.email;
-    const checkPassword = dataUserAccounts.password;
+  for (const userAccount of userDB) {
+    const checkName = userAccount.email;
+    const checkPassword = userAccount.password;
 
     if (userName === checkName && userPassword === checkPassword) {
       loginChecker = true;
@@ -80,9 +80,9 @@ let inputUserLogin = {};
 inputUserLogin.email = 'ghifarimohammadrahadian@gmail.com';
 inputUserLogin.password = 'qwerty';
 
-// console.log(login(inputUserLogin, userAccounts));
+// console.log(login(inputUserLogin, userDB));
 
-function register (inputUserData, userAccounts) {
+function register (inputUserData, userDB) {
   const inputName = inputUserData.name;
   const inputEmail = inputUserData.email;
   const inputPassword = inputUserData.password;
@@ -92,7 +92,7 @@ function register (inputUserData, userAccounts) {
     return 'input invalid';
   }
 
-  for (const accountData of userAccounts) { //check existing email
+  for (const accountData of userDB) { //check existing email
     const userEmail = accountData.email;
 
     if (inputEmail === userEmail) {
@@ -105,7 +105,7 @@ function register (inputUserData, userAccounts) {
   }
 
   let accountNumber = 0; //create new ID
-  const lastUser = userAccounts[userAccounts.length - 1];
+  const lastUser = userDB[userDB.length - 1];
   const lastUserId = lastUser.id;
   const splitId = [];
   let tmp = '';
@@ -122,7 +122,7 @@ function register (inputUserData, userAccounts) {
 
   accountNumber = Number(splitId[1]) + 1; //splitId = ['user', '<string number>']
 
-  userAccounts.push({
+  userDB.push({
     id: `user-${accountNumber}`,
     name: inputName,
     email: inputEmail,
@@ -131,7 +131,7 @@ function register (inputUserData, userAccounts) {
     cart: []
   });
 
-  return userAccounts;
+  return userDB;
 }
 
 let createNewUser = {};
@@ -140,21 +140,21 @@ createNewUser.name = 'Andreas Juan Sanjaya';
 createNewUser.email = 'juan@gmail.com';
 createNewUser.password = 'hehe';
 
-// console.log(register(createNewUser, userAccounts));
+// console.log(register(createNewUser, userDB));
 
 /* Re-login using new user
-register(createNewUser, userAccounts);
+register(createNewUser, userDB);
 
 let inputUserLogin2 = {}
 
 inputUserLogin2.email = 'juan@gmail.com';
 inputUserLogin2.password = 'hehe';
 
-console.log(login(inputUserLogin2, userAccounts));
+console.log(login(inputUserLogin2, userDB));
 */
 
-function updateSaldo (currentUser, amount, userAccounts) { //Done
-  for (const userData of userAccounts) {
+function updateSaldo (currentUser, amount, userDB) { //Done
+  for (const userData of userDB) {
     let userAccount = userData.id;
 
     if (currentUser === userAccount) {
@@ -162,14 +162,14 @@ function updateSaldo (currentUser, amount, userAccounts) { //Done
     }
   }
 
-  return userAccounts;
+  return userDB;
 }
 
 let currentUser = 'user-0';
 
-userAccounts = updateSaldo(currentUser, 1000000, userAccounts);
+userDB = updateSaldo(currentUser, 1000000, userDB);
 
-// console.log(userAccounts);
+// console.log(userDB);
 
 /**
  * 
@@ -218,14 +218,8 @@ const productList = [
   } 
 ];
 
-// function pickProduct () { //if button clicked
-
-// }
-
-// console.log(pickProduct());
-
-function addToCart (currentUser, product, userAccounts) { //Done
-  for (const userAccount of userAccounts) {
+function addToCart (currentUser, product, userDB) { //Done
+  for (const userAccount of userDB) {
     const accountId = userAccount.id;
     const userCart = userAccount.cart;
     
@@ -256,12 +250,36 @@ let produkPilihan = {
   description: 'salep krim anti jamur'
 };
 
-// console.log(addToCart(currentUser, produkPilihan, userAccounts));
-addToCart(currentUser, produkPilihan, userAccounts);
+// currentUser = 'user-1';
+addToCart(currentUser, produkPilihan, userDB);
+// console.log(userDB);
+
+function removeFromCart (currentUser, product, userDB) {
+  for (const userAccount of userDB) {
+    const accountId = userAccount.id;
+    const userCart = userAccount.cart;
+    
+    if (currentUser === accountId) {
+      for (let i = 0; i < userCart.length; i++) {
+        const cartItem = userCart[i];
+        const cartItemId = cartItem.id;
+        const productId = product.id;
+        
+        if (productId === cartItemId) {
+          userCart.splice(i, 1)
+        }
+      }
+    }
+  }
+}
+
+removeFromCart(currentUser, produkPilihan, userDB);
+
+// console.log(userDB[0]);
 
 // function checkout () {
   
 // }
 
-// console.log(checkout(currentUser, cart, userAccounts));
+// console.log(checkout(currentUser, cart, userDB));
 
