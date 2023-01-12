@@ -5,7 +5,24 @@ let userAccounts = [
     email: 'ghifarimohammadrahadian@gmail.com',
     password: 'qwerty',
     saldo: 0,
-    cart: []
+    cart: [
+      {
+        id: 'item-3',
+        name: 'Promag Cair',
+        price: 15000,
+        image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062688211618504795/apotek_online_k24klik_20201127030453359225_PROMAG-SUS.png',
+        description: 'Promag cair untuk mengurangi gejala yang berhubungan dengan kelebihan asam lambung, gastritis, tukak lambung, dan tukak usus 12 jari.',
+        amount: 1
+      },
+      {
+       id: 'item-4',
+        name: 'Miconazole Cream 2%',
+        price: 6000,
+        image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062690248477380679/0116b0043.png',
+        description: 'salep krim anti jamur',
+        amount: 1
+      } 
+    ]
   },
   {
     id: 'user-1',
@@ -213,18 +230,31 @@ function addToCart (currentUser, product, userAccounts) { //Done
     const userCart = userAccount.cart;
     
     if (currentUser === accountId) {
-      userCart.push(product);
+      //Check if user alr have the product. if yes, add amount only, if no add the product to cart
+      if (userCart.length > 0) {
+        for (const cartItem of userCart) {
+          const cartItemId = cartItem.id;
+          const productId = product.id;
+          
+          if (productId === cartItemId) {
+            cartItem.amount++;
+          }
+        }
+      } else {
+        product.amount = 1;
+        userCart.push(product);
+      }
     }
   }
 }
 
 let produkPilihan = {
   id: 'item-4',
-   name: 'Miconazole Cream 2%',
-   price: 6000,
-   image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062690248477380679/0116b0043.png',
-   description: 'salep krim anti jamur'
- };
+  name: 'Miconazole Cream 2%',
+  price: 6000,
+  image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062690248477380679/0116b0043.png',
+  description: 'salep krim anti jamur'
+};
 
 // console.log(addToCart(currentUser, produkPilihan, userAccounts));
 addToCart(currentUser, produkPilihan, userAccounts);
