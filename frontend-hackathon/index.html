@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,26 +9,27 @@
 
   <!-- font awesome cdn link -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  
+
   <!-- custom css file link -->
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
   <!-- header section start -->
   <header class="header">
-    
+
     <!-- logo and pharmacy store name -->
-    <a href="#" class="logo"><i class="fa-solid fa-prescription-bottle-medical"></i>    Pharstore</a>
-    
+    <a href="#" class="logo"><i class="fa-solid fa-prescription-bottle-medical"></i> Pharstore</a>
+
     <!-- search and shopping cart icons -->
     <div class="icons">
       <div class="fa-solid fa-magnifying-glass" id="search-button"></div>
       <div class="fa-solid fa-cart-shopping" id="cart-button"></div>
     </div>
-    
+
     <!-- search form  -->
     <form action="" class="search-form">
-      <input type="search" id="search-box" placeholder="search here...">
+      <input type="search" id="search-box" onkeyup="myFunction()" placeholder="search here...">
       <label for="search-box" class="fas fa-search"></label>
     </form>
 
@@ -66,11 +68,12 @@
 
   <!-- home section start -->
   <section class="home" id="home">
-    
+
     <!-- home section content -->
     <div class="content">
       <h3>medicine that makes you <span>healthier</span> as before</h3>
-      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est libero nisi perferendis omnis. Deleniti, porro?</p>
+      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Est libero nisi perferendis omnis. Deleniti, porro?
+      </p>
       <a href="#products" class="button">Shop Now</a>
     </div>
   </section>
@@ -79,10 +82,9 @@
   <!-- products section start -->
   <section class="products" id="products">
     <h1 class="heading">Our Products</h1>
-    <div class="box-container">
-
+    <div id="cards-container" class="box-container">
       <!-- product item -->
-      <div class="box">
+      <div class="box" >
         <img src="images/cart-img-bodrex.png" alt="">
         <h3>Bodrex</h3>
         <p>Rp. 3000</p>
@@ -92,40 +94,40 @@
       <!-- product item -->
       <div class="box">
         <img src="images/cart-img-bodrex.png" alt="">
-        <h3>Bodrex</h3>
-        <p>Rp. 3000</p>
+        <h3>OBH</h3>
+        <p>Rp. 16000</p>
         <a href="#" class="button">Add to Cart</a>
       </div>
 
       <!-- product item -->
       <div class="box">
         <img src="images/cart-img-bodrex.png" alt="">
-        <h3>Bodrex</h3>
-        <p>Rp. 3000</p>
+        <h3>Siladex</h3>
+        <p>Rp. 41000</p>
         <a href="#" class="button">Add to Cart</a>
       </div>
 
       <!-- product item -->
       <div class="box">
         <img src="images/cart-img-bodrex.png" alt="">
-        <h3>Bodrex</h3>
-        <p>Rp. 3000</p>
+        <h3>Promag</h3>
+        <p>Rp. 8000</p>
         <a href="#" class="button">Add to Cart</a>
       </div>
 
       <!-- product item -->
       <div class="box">
         <img src="images/cart-img-bodrex.png" alt="">
-        <h3>Bodrex</h3>
-        <p>Rp. 3000</p>
-        <a href="#" class="button">Add to Cart</a>
+        <h3>Entrostop</h3>
+        <p>Rp. 10000</p>
+        <a href="#" class="button">Add to Cart</a> -->
       </div>
 
       <!-- product item -->
       <div class="box">
         <img src="images/cart-img-bodrex.png" alt="">
-        <h3>Bodrex</h3>
-        <p>Rp. 3000</p>
+        <h3>Imboost</h3>
+        <p>Rp. 11300</p>
         <a href="#" class="button">Add to Cart</a>
       </div>
     </div>
@@ -133,6 +135,8 @@
   <!-- product section end -->
 
   <!-- custom js file link -->
-  <script src="script.js"></script>
+  
+  <script src="/frontend-hackathon/script.js"></script>
 </body>
+
 </html>
