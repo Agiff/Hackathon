@@ -222,17 +222,21 @@ function addToCart (currentUser, product, userDB) { //Done
   for (const userAccount of userDB) {
     const accountId = userAccount.id;
     const userCart = userAccount.cart;
-    
     if (currentUser === accountId) {
       //Check if user alr have the product. if yes, add amount only, if no add the product to cart
       if (userCart.length > 0) {
+        let flag = false;
         for (const cartItem of userCart) {
           const cartItemId = cartItem.id;
           const productId = product.id;
           
           if (productId === cartItemId) {
+            flag = true;
             cartItem.amount++;
           }
+        } if (!flag){
+          product.amount = 1;
+          userCart.push(product);
         }
       } else {
         product.amount = 1;
@@ -242,23 +246,22 @@ function addToCart (currentUser, product, userDB) { //Done
   }
 }
 
-let produkPilihan = {
-  id: 'item-4',
-  name: 'Miconazole Cream 2%',
-  price: 6000,
-  image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062690248477380679/0116b0043.png',
-  description: 'salep krim anti jamur'
+let produkPilihan =     {
+  id: 'item-2',
+  name: 'Promag Tablet',
+  price: 10000,
+  image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062687637204373625/apotek_online_k24klik_2021101902504923085_Promag-Tablet-10s-1.png',
+  description: 'PROMAG CHEW TAB 10S STRIP 3S merupakan obat kombinasi antara antasida dengan simetikon yang digunakan untuk terapi dyspepsia (maag) dengan mengurangi gejala maag seperti kembung, mual, dan bersendawa. Promag mengandung antasida Magnesium (Mg(OH)) dan Hydrotalcite dengan Simetikon yang dapat menetralkan asam lambung dan mengurangi gas yang berlebihan di saluran pencernaan (antiflatulen).'
 };
 
-// currentUser = 'user-1';
-// addToCart(currentUser, produkPilihan, userDB);
-// console.log(userDB);
+// currentUser = 'user-0';
+addToCart(currentUser, produkPilihan, userDB);
+console.log(userDB[0]);
 
 function removeFromCart (currentUser, product, userDB) {
   for (const userAccount of userDB) {
     const accountId = userAccount.id;
     const userCart = userAccount.cart;
-    
     if (currentUser === accountId) {
       for (let i = 0; i < userCart.length; i++) {
         const cartItem = userCart[i];
@@ -280,6 +283,7 @@ function removeFromCart (currentUser, product, userDB) {
 function updateCartAmount(currentUser, product, value, userDB) {
   for (const userAccount of userDB) {
     const accountId = userAccount.id;
+    console.log (accountId)
     const userCart = userAccount.cart;
     
     if (currentUser === accountId) {
@@ -408,7 +412,7 @@ function searchName(input, listOfProduct) {
   return result;
 }
 
-console.log (searchName('ear', productList))
+// console.log (searchName('cair', productList))
 // console.log (nameToArray('Miconazole cream 2%'))
 
 //end of search fiture
@@ -455,57 +459,63 @@ function filterHarga (input, productList){
  * 
 */
 
-let listProduk = document.querySelector('.box-container');
+// let listProduk = document.querySelector('.box-container');
 
-let defaultOption = 'Lowest';
+// let defaultOption = 'Lowest';
 
-function renderProduct() {
-  let arrayProduk = filterHarga(defaultOption, productList);
-  console.log(arrayProduk);
+// function renderProduct() {
+//   let arrayProduk = filterHarga(defaultOption, productList);
+//   console.log(arrayProduk);
   
-  for (const produk of arrayProduk) {
-    const { id, name, image, price, description } = produk;
+//   for (const produk of arrayProduk) {
+//     const { id, name, image, price, description } = produk;
 
-    // create <div class="box"></div>
-    const productCard = document.createElement('div');
-    productCard.classList.add('box');
+//     // create <div class="box"></div>
+//     const productCard = document.createElement('div');
+//     productCard.classList.add('box');
     
-    // create <img src=image>
-    const productImage = document.createElement('img');
-    productImage.setAttribute('src', image);
+//     // create <img src=image>
+//     const productImage = document.createElement('img');
+//     productImage.setAttribute('src', image);
 
-    // create <h3>Bodrex</h3>
-    const productName = document.createElement('h3');
-    productName.innerText = name;
+//     // create <h3>Bodrex</h3>
+//     const productName = document.createElement('h3');
+//     productName.innerText = name;
 
-    // create <p>Rp. 3000</p>
-    const productPrice = document.createElement('p');
-    productPrice.innerText = `Rp. ${price}`;
+//     // create <p>Rp. 3000</p>
+//     const productPrice = document.createElement('p');
+//     productPrice.innerText = `Rp. ${price}`;
 
-    // create <a href="#" class="button">Add to Cart</a>
-    const addToCartButton = document.createElement('a');
-    addToCartButton.classList.add('button');
-    addToCartButton.innerHTML = 'Add To Cart';
+//     // create <a href="#" class="button">Add to Cart</a>
+//     const addToCartButton = document.createElement('a');
+//     addToCartButton.classList.add('button');
+//     addToCartButton.innerHTML = 'Add To Cart';
 
-    productCard.appendChild(productImage); // img > productCard(div)
-    productCard.appendChild(productName); // h3 > productCard(div)
-    productCard.appendChild(productPrice); // p > productCard(div)
-    productCard.appendChild(addToCartButton); // p > productCard(div)
+//     addToCartButton.addEventListener('click', function() {
+//       addToCart(currentUser, produk, userDB);
+//       // console.log(currentUser);
+//       console.log(userDB[0]);
+//     })
 
-    listProduk.appendChild(productCard); // productCard(div) > parent
-  }
-}
+//     productCard.appendChild(productImage); // img > productCard(div)
+//     productCard.appendChild(productName); // h3 > productCard(div)
+//     productCard.appendChild(productPrice); // p > productCard(div)
+//     productCard.appendChild(addToCartButton); // p > productCard(div)
 
-renderProduct();
+//     listProduk.appendChild(productCard); // productCard(div) > parent
+//   }
+// }
 
-const filterOption = document.getElementById('sort-by');
+// renderProduct();
 
-filterOption.addEventListener('change', function() {
-  const selectedOption = filterOption.options[filterOption.selectedIndex];
+// const filterOption = document.getElementById('sort-by');
+
+// filterOption.addEventListener('change', function() {
+//   const selectedOption = filterOption.options[filterOption.selectedIndex];
   
-  if (defaultOption !== selectedOption.value) {
-    defaultOption = selectedOption.value;
-    listProduk.innerHTML = '';
-    renderProduct();
-  }
-});
+//   if (defaultOption !== selectedOption.value) {
+//     defaultOption = selectedOption.value;
+//     listProduk.innerHTML = '';
+//     renderProduct();
+//   }
+// });
