@@ -399,7 +399,7 @@ function searchName (input, listOfProduct){
 
 function filterHarga (input, productList){
   let result = productList
-  if (input === 'Terendah'){
+  if (input === 'Lowest'){
     for (let i = 0; i < result.length - 1; i++){
       if (result[i]['price'] > result[i+1]['price']){
         let biggerNumber = result[i];
@@ -409,7 +409,7 @@ function filterHarga (input, productList){
         i = -1
       }
     }
-  } else if (input === 'Tertinggi') {
+  } else if (input === 'Highest') {
     for (let i = 0; i < result.length - 1; i++){
       if (result[i]['price'] < result[i+1]['price']){
         let biggerNumber = result[i+1];
@@ -427,10 +427,21 @@ function filterHarga (input, productList){
 
 //end of filter fiture
 
-const listProduk = document.querySelector('.box-container');
+/**
+ * 
+ * 
+ * ================ DOM =================
+ * 
+ * 
+ * 
+*/
+
+let listProduk = document.querySelector('.box-container');
+
+let defaultOption = 'Lowest';
 
 function renderProduct() {
-  let arrayProduk = filterHarga('Terendah', productList);
+  let arrayProduk = filterHarga(defaultOption, productList);
   console.log(arrayProduk);
   
   for (const produk of arrayProduk) {
@@ -467,3 +478,15 @@ function renderProduct() {
 }
 
 renderProduct();
+
+const filterOption = document.getElementById('sort-by');
+
+filterOption.addEventListener('change', function() {
+  const selectedOption = filterOption.options[filterOption.selectedIndex];
+  
+  if (defaultOption !== selectedOption.value) {
+    defaultOption = selectedOption.value;
+    listProduk.innerHTML = '';
+    renderProduct();
+  }
+});
