@@ -412,7 +412,7 @@ function searchName(input, listOfProduct) {
   return result;
 }
 
-// console.log (searchName('cair', productList))
+// console.log (searchName('ear', productList))
 // console.log (nameToArray('Miconazole cream 2%'))
 
 //end of search fiture
@@ -459,52 +459,60 @@ function filterHarga (input, productList){
  * 
 */
 
-// let listProduk = document.querySelector('.box-container');
+let listProduk = document.querySelector('.box-container');
 
-// let defaultOption = 'Lowest';
+let defaultOption = 'Lowest';
 
-// function renderProduct() {
-//   let arrayProduk = filterHarga(defaultOption, productList);
-//   console.log(arrayProduk);
+function renderProduct() {
+  let arrayProduk = filterHarga(defaultOption, productList);
+  console.log(arrayProduk);
   
-//   for (const produk of arrayProduk) {
-//     const { id, name, image, price, description } = produk;
+  for (const produk of arrayProduk) {
+    const { id, name, image, price, description } = produk;
+  
+    // create <div class="box"></div>
+    const productCard = document.createElement('div');
+    productCard.classList.add('box');
+  
+    // create <img src=image>
+    const productImage = document.createElement('img');
+    productImage.setAttribute('src', image);
+  
+    // create <h3>Bodrex</h3>
+    const productName = document.createElement('h3');
+    productName.innerText = name;
+  
+    // create <p>Rp. 3000</p>
+    const productPrice = document.createElement('p');
+    productPrice.innerText = `Rp. ${price}`;
+  
+    // create <a href="#" class="button">Add to Cart</a>
+    const addToCartButton = document.createElement('a');
+    addToCartButton.classList.add('button');
+    addToCartButton.innerHTML = 'Add To Cart';
 
-//     // create <div class="box"></div>
-//     const productCard = document.createElement('div');
-//     productCard.classList.add('box');
-    
-//     // create <img src=image>
-//     const productImage = document.createElement('img');
-//     productImage.setAttribute('src', image);
-
-//     // create <h3>Bodrex</h3>
-//     const productName = document.createElement('h3');
-//     productName.innerText = name;
-
-//     // create <p>Rp. 3000</p>
-//     const productPrice = document.createElement('p');
-//     productPrice.innerText = `Rp. ${price}`;
-
-//     // create <a href="#" class="button">Add to Cart</a>
-//     const addToCartButton = document.createElement('a');
-//     addToCartButton.classList.add('button');
-//     addToCartButton.innerHTML = 'Add To Cart';
-
-//     addToCartButton.addEventListener('click', function() {
-//       addToCart(currentUser, produk, userDB);
-//       // console.log(currentUser);
-//       console.log(userDB[0]);
-//     })
-
-//     productCard.appendChild(productImage); // img > productCard(div)
-//     productCard.appendChild(productName); // h3 > productCard(div)
-//     productCard.appendChild(productPrice); // p > productCard(div)
-//     productCard.appendChild(addToCartButton); // p > productCard(div)
-
-//     listProduk.appendChild(productCard); // productCard(div) > parent
-//   }
-// }
+    addToCartButton.addEventListener('click', function() {
+      addToCart(currentUser, produk, userDB);
+      // console.log(currentUser);
+      console.log(userDB[0]);
+    })
+    addToCartButton.addEventListener('click', function() {
+      console.log(produk);
+    })
+  
+    productCard.appendChild(productImage); // img > productCard(div)
+    productCard.appendChild(productName); // h3 > productCard(div)
+    productCard.appendChild(productPrice); // p > productCard(div)
+    productCard.appendChild(addToCartButton); // p > productCard(div)
+  
+    productCard.appendChild(productImage); // img > productCard(div)
+    productCard.appendChild(productName); // h3 > productCard(div)
+    productCard.appendChild(productPrice); // p > productCard(div)
+    productCard.appendChild(addToCartButton); // p > productCard(div)
+  
+    listProduk.appendChild(productCard); // productCard(div) > parent
+  }
+}
 
 // renderProduct();
 
@@ -519,3 +527,89 @@ function filterHarga (input, productList){
 //     renderProduct();
 //   }
 // });
+  if (defaultOption !== selectedOption.value) {
+    defaultOption = selectedOption.value;
+    listProduk.innerHTML = '';
+    renderProduct();
+  }
+});
+
+let shoppingCart = document.querySelector('.shopping-cart');
+
+document.querySelector('#cart-button').onclick = () => {
+  cartWindow.innerHTML = '';
+  cartContent(currentUser, userDB);
+  // console.log(shoppingCart.classList.toggle('active'));
+  shoppingCart.classList.toggle('active');
+  searchForm.classList.remove('active');
+};
+
+const cartWindow = document.querySelector('.shopping-cart');
+
+function cartContent (currentUser, userDB) {
+  for (const userAccount of userDB) {
+    const userCart = userAccount.cart;
+    if (userAccount.id === currentUser) {
+      let totalBelanjaan = 0;
+
+      for (const cartItem of userCart) {
+        let { id, name, image, price, description, amount } = cartItem;
+        totalBelanjaan = totalBelanjaan + price;
+        // create <div class="box"></div>
+        const productCard = document.createElement('div');
+        productCard.className = 'box'
+
+        // create <i class="fas fa-trash"></i>
+        const deleteIcon = document.createElement('i');
+        deleteIcon.className = 'fas fa-trash';
+
+        // create <img src="images/cart-img-bodrex.png" alt="">
+        const cartImage = document.createElement('img');
+        cartImage.setAttribute('src', image);
+
+        // create <div class="content">
+        const cartContentCard = document.createElement('div');
+        cartContentCard.classList.add('content');
+
+        // create <h3>Bodrex</h3>
+        const cartContentName = document.createElement('h3');
+        if (name.length > 15) {
+          name = `${name.substring(0, 15)}...`
+        }
+        cartContentName.innerText = name;
+
+        // create <span class="price">Rp.3000</span>
+        const cartContentPrice = document.createElement('span');
+        cartContentPrice.className = 'price';
+        cartContentPrice.innerText = price;
+
+        // create <span class="quantity">qty: 1</span>
+        const cartContentQuantity = document.createElement('span');
+        cartContentQuantity.className = 'quantity';
+        cartContentQuantity.innerText = `Qty: ${amount}`;
+
+        cartContentCard.appendChild(cartContentName);
+        cartContentCard.appendChild(cartContentPrice);
+        cartContentCard.appendChild(cartContentQuantity);
+
+        productCard.appendChild(deleteIcon);
+        productCard.appendChild(cartImage);
+        productCard.appendChild(cartContentCard);
+        cartWindow.appendChild(productCard);
+      }
+
+      // create <div class="total">Total : Rp. 6000</div>
+      const totalContainer = document.createElement('div');
+      totalContainer.classList.add('total');
+      totalContainer.innerText = `Total: Rp. ${totalBelanjaan}`;
+
+      // create <a href="" class="button">Checkout</a>
+      const checkoutButton = document.createElement('a');
+      checkoutButton.className = 'button';
+      checkoutButton.innerText = 'Checkout';
+
+      cartWindow.appendChild(totalContainer);
+      cartWindow.appendChild(checkoutButton);
+    }
+  }
+}
