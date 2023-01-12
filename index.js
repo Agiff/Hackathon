@@ -332,7 +332,7 @@ const productList = [
 ];
 
 function addToCart (currentUser, product, userDB) { //Done
-  console.log(currentUser);
+  // console.log(currentUser);
   for (const userAccount of userDB) {
     const accountId = userAccount.id;
     const userCart = userAccount.cart;
@@ -397,10 +397,11 @@ function removeFromCart (currentUser, product, userDB) {
 function updateCartAmount(currentUser, product, value, userDB) {
   for (const userAccount of userDB) {
     const accountId = userAccount.id;
-    console.log (accountId)
+    // console.log (accountId);
     const userCart = userAccount.cart;
     
     if (currentUser === accountId) {
+      // console.log(currentUser);
       for (let i = 0; i < userCart.length; i++) {
         const cartItem = userCart[i];
         const cartItemId = cartItem.id;
@@ -716,8 +717,8 @@ function cartContent (currentUser, userDB) {
 
         // create <h3>Bodrex</h3>
         const cartContentName = document.createElement('h3');
-        if (name.length > 15) {
-          name = `${name.substring(0, 15)}...`
+        if (name.length > 13) {
+          name = `${name.substring(0, 13)}...`
         }
         cartContentName.innerText = name;
 
@@ -726,14 +727,44 @@ function cartContent (currentUser, userDB) {
         cartContentPrice.className = 'price';
         cartContentPrice.innerText = price;
 
+        // create <button> for +
+        const increaseAmountButton = document.createElement('button');
+        increaseAmountButton.className = 'small-button';
+        increaseAmountButton.innerText = '+';
+
+        increaseAmountButton.addEventListener('click', function() {
+          updateCartAmount(globalCurrentUser.id, cartItem, 1, userDB);
+          cartWindow.innerHTML = '';
+          cartContent(globalCurrentUser.id, userDB);
+        })
+
+        // create <button> for -
+        const decreaseAmountButton = document.createElement('button');
+        decreaseAmountButton.className = 'small-button';
+        decreaseAmountButton.innerText = '-';
+
+        decreaseAmountButton.addEventListener('click', function() {
+          updateCartAmount(globalCurrentUser.id, cartItem, -1, userDB);
+          cartWindow.innerHTML = '';
+          cartContent(globalCurrentUser.id, userDB);
+        })
+
         // create <span class="quantity">qty: 1</span>
-        const cartContentQuantity = document.createElement('span');
-        cartContentQuantity.className = 'quantity';
-        cartContentQuantity.innerText = `Qty: ${amount}`;
+        const cartQty = document.createElement('span');
+        cartQty.className = 'quantity';
+        cartQty.innerText = 'Qty: ';
+        
+        // create <span class="quantity">qty: 1</span>
+        const cartQuantityNumber = document.createElement('span');
+        cartQuantityNumber.className = 'quantity';
+        cartQuantityNumber.innerText = amount;
 
         cartContentCard.appendChild(cartContentName);
         cartContentCard.appendChild(cartContentPrice);
-        cartContentCard.appendChild(cartContentQuantity);
+        cartContentCard.appendChild(cartQty);
+        cartContentCard.appendChild(decreaseAmountButton);
+        cartContentCard.appendChild(cartQuantityNumber);
+        cartContentCard.appendChild(increaseAmountButton);
 
         productCard.appendChild(deleteIcon);
         productCard.appendChild(cartImage);
