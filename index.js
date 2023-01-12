@@ -251,7 +251,7 @@ let produkPilihan = {
 };
 
 // currentUser = 'user-1';
-addToCart(currentUser, produkPilihan, userDB);
+// addToCart(currentUser, produkPilihan, userDB);
 // console.log(userDB);
 
 function removeFromCart (currentUser, product, userDB) {
@@ -273,9 +273,33 @@ function removeFromCart (currentUser, product, userDB) {
   }
 }
 
-removeFromCart(currentUser, produkPilihan, userDB);
+// removeFromCart(currentUser, produkPilihan, userDB);
 
 // console.log(userDB[0]);
+
+function updateCartAmount(currentUser, product, value, userDB) {
+  for (const userAccount of userDB) {
+    const accountId = userAccount.id;
+    const userCart = userAccount.cart;
+    
+    if (currentUser === accountId) {
+      for (const cartItem of userCart) {
+        const cartItemId = cartItem.id;
+        const productId = product.id;
+        
+        if (productId === cartItemId) {
+          cartItem.amount = cartItem.amount + value;
+        }
+      }
+    }
+  }
+}
+
+let updateValue = -1;
+
+updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
+
+console.log(userDB[0]);
 
 // function checkout () {
   
