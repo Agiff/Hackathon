@@ -168,7 +168,16 @@ section {
   box-shadow: var(--box-shadow);
   width: 35rem;
   background: #fff;
+  max-height: 50rem;
+  overflow: scroll;
 }
+
+#shopping-cart::-webkit-scrollbar { 
+  display: none; 
+}
+/* cartWindow.style.maxHeight = '50rem';
+cartWindow.style.overflow = "scroll";
+cartWindow.style.setProperty("--scrollbar-width", "0px"); */
 
 .header .shopping-cart.active {
   right: 2rem;

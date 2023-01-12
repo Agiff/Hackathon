@@ -622,5 +622,22 @@ loginForm.addEventListener('submit', e => {
 });
 
 const inputLoginEmail = document.getElementById("login-email");
-
 const inputLoginPassword = document.getElementById("login-password");
+
+const registerForm = document.getElementById('form-register');
+
+registerForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    let createNewUser = {};
+
+    createNewUser.name = inputRegisterName.value;
+    createNewUser.email = inputRegisterEmail.value;
+    createNewUser.password = inputRegisterPassword.value;
+
+    register(createNewUser, userDB);
+});
+
+const inputRegisterName = document.getElementById("register-name");
+const inputRegisterEmail = document.getElementById("register-email");
+const inputRegisterPassword = document.getElementById("register-password");
