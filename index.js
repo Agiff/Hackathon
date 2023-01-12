@@ -301,9 +301,9 @@ function updateCartAmount(currentUser, product, value, userDB) {
 
 let updateValue = -1;
 
-updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
+// updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
 
-console.log(userDB[0]);
+// console.log(userDB[0]);
 
 function checkout (currentUser, userDB) {
   for (const userAccount of userDB) {
@@ -389,7 +389,7 @@ function searchName (input, listOfProduct){
   return result;
 }
 
-// console.log (searchName('promag', productList))
+// console.log (searchName('Mico', productList))
 // console.log (nameToArray('Miconazole cream 2%'))
 
 //end of search fiture
@@ -423,6 +423,47 @@ function filterHarga (input, productList){
   return result
 }
 
-console.log (filterHarga('Tertinggi', productList))
+// console.log (filterHarga('Terendah', productList))
 
 //end of filter fiture
+
+const listProduk = document.querySelector('.box-container');
+
+function renderProduct() {
+  let arrayProduk = filterHarga('Terendah', productList);
+  console.log(arrayProduk);
+  
+  for (const produk of arrayProduk) {
+    const { id, name, image, price, description } = produk;
+
+    // create <div class="box"></div>
+    const productCard = document.createElement('div');
+    productCard.classList.add('box');
+    
+    // create <img src=image>
+    const productImage = document.createElement('img');
+    productImage.setAttribute('src', image);
+
+    // create <h3>Bodrex</h3>
+    const productName = document.createElement('h3');
+    productName.innerText = name;
+
+    // create <p>Rp. 3000</p>
+    const productPrice = document.createElement('p');
+    productPrice.innerText = `Rp. ${price}`;
+
+    // create <a href="#" class="button">Add to Cart</a>
+    const addToCartButton = document.createElement('a');
+    addToCartButton.classList.add('button');
+    addToCartButton.innerHTML = 'Add To Cart';
+
+    productCard.appendChild(productImage); // img > productCard(div)
+    productCard.appendChild(productName); // h3 > productCard(div)
+    productCard.appendChild(productPrice); // p > productCard(div)
+    productCard.appendChild(addToCartButton); // p > productCard(div)
+
+    listProduk.appendChild(productCard); // productCard(div) > parent
+  }
+}
+
+renderProduct();
