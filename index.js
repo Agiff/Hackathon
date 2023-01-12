@@ -33,14 +33,18 @@ let userDB = [
   },
 ];
 
+const globalCurrentUser = { id: 'user-1' };
+
 function login (currentUser, userDB) {
   if (!currentUser.email || !currentUser.password) {
-    return 'email atau password kosong';
+    return alert('email atau password kosong');
   }
 
   const userName = currentUser.email;
   const userPassword = currentUser.password;
   let loginChecker = false;
+  let namaUser = '';
+  let userId = '';
 
   for (const userAccount of userDB) {
     const checkName = userAccount.email;
@@ -48,20 +52,23 @@ function login (currentUser, userDB) {
 
     if (userName === checkName && userPassword === checkPassword) {
       loginChecker = true;
+      namaUser = userAccount.name;
+      userId = userAccount.id;
     }
   }
 
   if (!loginChecker) {
-    return 'email tidak terdaftar atau password salah';
+    return alert('email tidak terdaftar atau password salah');
   }
 
-  return 'login berhasil';
+  globalCurrentUser.id = userId;
+  return alert(`Selamat datang ${namaUser}!`);
 }
 
-let inputUserLogin = {};
+// let inputUserLogin = {};
 
-inputUserLogin.email = 'ghifarimohammadrahadian@gmail.com';
-inputUserLogin.password = 'qwerty';
+// inputUserLogin.email = 'ghifarimohammadrahadian@gmail.com';
+// inputUserLogin.password = 'qwerty';
 
 // console.log(login(inputUserLogin, userDB));
 
@@ -148,8 +155,6 @@ function updateSaldo (currentUser, amount, userDB) { //Done
   return userDB;
 }
 
-let currentUser = 'user-0';
-
 // userDB = updateSaldo(currentUser, 1000000, userDB);
 
 // console.log(userDB);
@@ -202,6 +207,7 @@ const productList = [
 ];
 
 function addToCart (currentUser, product, userDB) { //Done
+  console.log(currentUser);
   for (const userAccount of userDB) {
     const accountId = userAccount.id;
     const userCart = userAccount.cart;
@@ -229,13 +235,13 @@ function addToCart (currentUser, product, userDB) { //Done
   }
 }
 
-let produkPilihan =     {
-  id: 'item-2',
-  name: 'Promag Tablet',
-  price: 10000,
-  image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062687637204373625/apotek_online_k24klik_2021101902504923085_Promag-Tablet-10s-1.png',
-  description: 'PROMAG CHEW TAB 10S STRIP 3S merupakan obat kombinasi antara antasida dengan simetikon yang digunakan untuk terapi dyspepsia (maag) dengan mengurangi gejala maag seperti kembung, mual, dan bersendawa. Promag mengandung antasida Magnesium (Mg(OH)) dan Hydrotalcite dengan Simetikon yang dapat menetralkan asam lambung dan mengurangi gas yang berlebihan di saluran pencernaan (antiflatulen).'
-};
+// let produkPilihan = {
+//   id: 'item-2',
+//   name: 'Promag Tablet',
+//   price: 10000,
+//   image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062687637204373625/apotek_online_k24klik_2021101902504923085_Promag-Tablet-10s-1.png',
+//   description: 'PROMAG CHEW TAB 10S STRIP 3S merupakan obat kombinasi antara antasida dengan simetikon yang digunakan untuk terapi dyspepsia (maag) dengan mengurangi gejala maag seperti kembung, mual, dan bersendawa. Promag mengandung antasida Magnesium (Mg(OH)) dan Hydrotalcite dengan Simetikon yang dapat menetralkan asam lambung dan mengurangi gas yang berlebihan di saluran pencernaan (antiflatulen).'
+// };
 
 // currentUser = 'user-0';
 // addToCart(currentUser, produkPilihan, userDB);
@@ -286,7 +292,7 @@ function updateCartAmount(currentUser, product, value, userDB) {
   }
 }
 
-let updateValue = -1;
+// let updateValue = -1;
 
 // updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
 
@@ -311,7 +317,7 @@ function checkout (currentUser, userDB) {
           delete userAccount.cart;
           userAccount.cart = [];
           cartWindow.innerHTML = '';
-          cartContent(currentUser, userDB);
+          cartContent(globalCurrentUser.id, userDB);
           alert(`Pembayaran sukses!
 Sisa saldo Anda adalah ${userAccount.saldo}`);
         } else {
@@ -479,9 +485,9 @@ function renderProduct() {
     addToCartButton.innerHTML = 'Add To Cart';
 
     addToCartButton.addEventListener('click', function() {
-      addToCart(currentUser, produk, userDB);
+      addToCart(globalCurrentUser.id, produk, userDB);
       cartWindow.innerHTML = '';
-      cartContent(currentUser, userDB);
+      cartContent(globalCurrentUser.id, userDB);
     })
   
     productCard.appendChild(productImage); // img > productCard(div)
@@ -505,8 +511,8 @@ const filterOption = document.getElementById('sort-by');
 filterOption.addEventListener('change', function() {
   const selectedOption = filterOption.options[filterOption.selectedIndex];
   
-  if (defaultOption !== selectedOption.value) {
-    defaultOption = selectedOption.value;
+  if (defaultOption !== selectedOption.value) { //Lowest, 2 lowest, higest
+    defaultOption = selectedOption.value; //Lowest > Highest
     listProduk.innerHTML = '';
     renderProduct();
   }
@@ -516,7 +522,7 @@ let shoppingCart = document.querySelector('.shopping-cart');
 
 document.querySelector('#cart-button').onclick = () => {
   cartWindow.innerHTML = '';
-  cartContent(currentUser, userDB);
+  cartContent(globalCurrentUser.id, userDB);
   shoppingCart.classList.toggle('active');
   searchForm.classList.remove('active');
 };
@@ -540,9 +546,9 @@ function cartContent (currentUser, userDB) {
         const deleteIcon = document.createElement('i');
         deleteIcon.className = 'fas fa-trash';
         deleteIcon.addEventListener('click', function() {
-          removeFromCart(currentUser, cartItem, userDB);
+          removeFromCart(globalCurrentUser.id, cartItem, userDB);
           cartWindow.innerHTML = '';
-          cartContent(currentUser, userDB);
+          cartContent(globalCurrentUser.id, userDB);
         })
 
         // create <img src="images/cart-img-bodrex.png" alt="">
@@ -591,7 +597,7 @@ function cartContent (currentUser, userDB) {
       checkoutButton.innerText = 'Checkout';
 
       checkoutButton.addEventListener('click', function() {
-        checkout(currentUser, userDB)
+        checkout(globalCurrentUser.id, userDB)
       })
 
       cartWindow.appendChild(totalContainer);
@@ -599,3 +605,22 @@ function cartContent (currentUser, userDB) {
     }
   }
 }
+
+const loginForm = document.getElementById('login-form');
+
+loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const inputUser = {};
+
+    inputUser.email = inputLoginEmail.value;
+    inputUser.password = inputLoginPassword.value;
+
+    // console.log(inputUser);
+
+    login(inputUser, userDB);
+});
+
+const inputLoginEmail = document.getElementById("login-email");
+
+const inputLoginPassword = document.getElementById("login-password");
