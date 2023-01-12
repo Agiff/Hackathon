@@ -5,24 +5,7 @@ let userDB = [
     email: 'ghifarimohammadrahadian@gmail.com',
     password: 'qwerty',
     saldo: 100000,
-    cart: [
-      {
-        id: 'item-3',
-        name: 'Promag Cair',
-        price: 15000,
-        image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062688211618504795/apotek_online_k24klik_20201127030453359225_PROMAG-SUS.png',
-        description: 'Promag cair untuk mengurangi gejala yang berhubungan dengan kelebihan asam lambung, gastritis, tukak lambung, dan tukak usus 12 jari.',
-        amount: 1
-      },
-      {
-       id: 'item-4',
-        name: 'Miconazole Cream 2%',
-        price: 6000,
-        image: 'https://www.pyfa.co.id/wp-content/uploads/2020/12/Miconazole-Nitrate.jpg',
-        description: 'salep krim anti jamur',
-        amount: 1
-      } 
-    ]
+    cart: []
   },
   {
     id: 'user-1',
@@ -50,14 +33,18 @@ let userDB = [
   },
 ];
 
+const globalCurrentUser = { id: 'user-1' };
+
 function login (currentUser, userDB) {
   if (!currentUser.email || !currentUser.password) {
-    return 'email atau password kosong';
+    return alert('email atau password kosong');
   }
 
   const userName = currentUser.email;
   const userPassword = currentUser.password;
   let loginChecker = false;
+  let namaUser = '';
+  let userId = '';
 
   for (const userAccount of userDB) {
     const checkName = userAccount.email;
@@ -65,20 +52,23 @@ function login (currentUser, userDB) {
 
     if (userName === checkName && userPassword === checkPassword) {
       loginChecker = true;
+      namaUser = userAccount.name;
+      userId = userAccount.id;
     }
   }
 
   if (!loginChecker) {
-    return 'email tidak terdaftar atau password salah';
+    return alert('email tidak terdaftar atau password salah');
   }
 
-  return 'login berhasil';
+  globalCurrentUser.id = userId;
+  return alert(`Selamat datang ${namaUser}!`);
 }
 
-let inputUserLogin = {};
+// let inputUserLogin = {};
 
-inputUserLogin.email = 'ghifarimohammadrahadian@gmail.com';
-inputUserLogin.password = 'qwerty';
+// inputUserLogin.email = 'ghifarimohammadrahadian@gmail.com';
+// inputUserLogin.password = 'qwerty';
 
 // console.log(login(inputUserLogin, userDB));
 
@@ -164,8 +154,6 @@ function updateSaldo (currentUser, amount, userDB) { //Done
 
   return userDB;
 }
-
-let currentUser = 'user-0';
 
 // userDB = updateSaldo(currentUser, 1000000, userDB);
 
@@ -344,6 +332,7 @@ const productList = [
 ];
 
 function addToCart (currentUser, product, userDB) { //Done
+  console.log(currentUser);
   for (const userAccount of userDB) {
     const accountId = userAccount.id;
     const userCart = userAccount.cart;
@@ -371,16 +360,16 @@ function addToCart (currentUser, product, userDB) { //Done
   }
 }
 
-let produkPilihan =     {
-  id: 'item-2',
-  name: 'Promag Tablet',
-  price: 10000,
-  image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062687637204373625/apotek_online_k24klik_2021101902504923085_Promag-Tablet-10s-1.png',
-  description: 'PROMAG CHEW TAB 10S STRIP 3S merupakan obat kombinasi antara antasida dengan simetikon yang digunakan untuk terapi dyspepsia (maag) dengan mengurangi gejala maag seperti kembung, mual, dan bersendawa. Promag mengandung antasida Magnesium (Mg(OH)) dan Hydrotalcite dengan Simetikon yang dapat menetralkan asam lambung dan mengurangi gas yang berlebihan di saluran pencernaan (antiflatulen).'
-};
+// let produkPilihan = {
+//   id: 'item-2',
+//   name: 'Promag Tablet',
+//   price: 10000,
+//   image: 'https://cdn.discordapp.com/attachments/1062684871094456380/1062687637204373625/apotek_online_k24klik_2021101902504923085_Promag-Tablet-10s-1.png',
+//   description: 'PROMAG CHEW TAB 10S STRIP 3S merupakan obat kombinasi antara antasida dengan simetikon yang digunakan untuk terapi dyspepsia (maag) dengan mengurangi gejala maag seperti kembung, mual, dan bersendawa. Promag mengandung antasida Magnesium (Mg(OH)) dan Hydrotalcite dengan Simetikon yang dapat menetralkan asam lambung dan mengurangi gas yang berlebihan di saluran pencernaan (antiflatulen).'
+// };
 
 // currentUser = 'user-0';
-addToCart(currentUser, produkPilihan, userDB);
+// addToCart(currentUser, produkPilihan, userDB);
 // console.log(userDB[0]);
 
 function removeFromCart (currentUser, product, userDB) {
@@ -428,7 +417,7 @@ function updateCartAmount(currentUser, product, value, userDB) {
   }
 }
 
-let updateValue = -1;
+// let updateValue = -1;
 
 // updateCartAmount(currentUser, produkPilihan, updateValue, userDB);
 
@@ -445,17 +434,22 @@ function checkout (currentUser, userDB) {
       if (userCart.length > 0) {
         for (const cartItem of userCart) {
           const itemPrice = cartItem.price;
-          totalPrice = totalPrice + itemPrice;
+          const itemAmount = cartItem.amount;
+          totalPrice = totalPrice + itemPrice * itemAmount;
         }
         if (userSaldo >= totalPrice) {
           userAccount.saldo -= totalPrice;
-          console.log('Pembayaran sukses!');
-          console.log(`Sisa saldo Anda adalah ${userAccount.saldo}`);
+          delete userAccount.cart;
+          userAccount.cart = [];
+          cartWindow.innerHTML = '';
+          cartContent(globalCurrentUser.id, userDB);
+          alert(`Pembayaran sukses!
+Sisa saldo Anda adalah ${userAccount.saldo}`);
         } else {
-          console.log('Maaf saldo anda tidak mencukupi untuk melakukan pembayaran');
+          alert('Maaf saldo anda tidak mencukupi untuk melakukan pembayaran');
         }
       } else {
-        console.log('Silahkan masukkan barang yang ingin Anda beli ke dalam keranjang');
+        alert('Silahkan masukkan barang yang ingin Anda beli ke dalam keranjang');
       }
     }
   }
@@ -614,7 +608,7 @@ function filterHarga (input, productList){
  * 
 */
 
-let listProduk = document.querySelector('.box-container');
+let listProduk = document.querySelector('.box-container'); //Product List Container
 
 let defaultOption = 'Lowest';
 
@@ -646,8 +640,9 @@ function renderProduct() {
     addToCartButton.innerHTML = 'Add To Cart';
 
     addToCartButton.addEventListener('click', function() {
-      addToCart(currentUser, produk, userDB);
-      console.log(userDB[0]);
+      addToCart(globalCurrentUser.id, produk, userDB);
+      cartWindow.innerHTML = '';
+      cartContent(globalCurrentUser.id, userDB);
     })
   
     productCard.appendChild(productImage); // img > productCard(div)
@@ -671,8 +666,8 @@ const filterOption = document.getElementById('sort-by');
 filterOption.addEventListener('change', function() {
   const selectedOption = filterOption.options[filterOption.selectedIndex];
   
-  if (defaultOption !== selectedOption.value) {
-    defaultOption = selectedOption.value;
+  if (defaultOption !== selectedOption.value) { //Lowest, 2 lowest, higest
+    defaultOption = selectedOption.value; //Lowest > Highest
     listProduk.innerHTML = '';
     renderProduct();
   }
@@ -682,12 +677,12 @@ let shoppingCart = document.querySelector('.shopping-cart');
 
 document.querySelector('#cart-button').onclick = () => {
   cartWindow.innerHTML = '';
-  cartContent(currentUser, userDB);
+  cartContent(globalCurrentUser.id, userDB);
   shoppingCart.classList.toggle('active');
   searchForm.classList.remove('active');
 };
 
-const cartWindow = document.querySelector('.shopping-cart');
+const cartWindow = document.querySelector('.shopping-cart'); //Shopping Cart Container
 
 function cartContent (currentUser, userDB) {
   for (const userAccount of userDB) {
@@ -697,7 +692,7 @@ function cartContent (currentUser, userDB) {
 
       for (const cartItem of userCart) {
         let { id, name, image, price, description, amount } = cartItem;
-        totalBelanjaan = totalBelanjaan + price;
+        totalBelanjaan = totalBelanjaan + (price * amount);
         // create <div class="box"></div>
         const productCard = document.createElement('div');
         productCard.className = 'box'
@@ -705,6 +700,11 @@ function cartContent (currentUser, userDB) {
         // create <i class="fas fa-trash"></i>
         const deleteIcon = document.createElement('i');
         deleteIcon.className = 'fas fa-trash';
+        deleteIcon.addEventListener('click', function() {
+          removeFromCart(globalCurrentUser.id, cartItem, userDB);
+          cartWindow.innerHTML = '';
+          cartContent(globalCurrentUser.id, userDB);
+        })
 
         // create <img src="images/cart-img-bodrex.png" alt="">
         const cartImage = document.createElement('img');
@@ -751,8 +751,48 @@ function cartContent (currentUser, userDB) {
       checkoutButton.className = 'button';
       checkoutButton.innerText = 'Checkout';
 
+      checkoutButton.addEventListener('click', function() {
+        checkout(globalCurrentUser.id, userDB)
+      })
+
       cartWindow.appendChild(totalContainer);
       cartWindow.appendChild(checkoutButton);
     }
   }
 }
+
+const loginForm = document.getElementById('login-form');
+
+loginForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    const inputUser = {};
+
+    inputUser.email = inputLoginEmail.value;
+    inputUser.password = inputLoginPassword.value;
+
+    // console.log(inputUser);
+
+    login(inputUser, userDB);
+});
+
+const inputLoginEmail = document.getElementById("login-email");
+const inputLoginPassword = document.getElementById("login-password");
+
+const registerForm = document.getElementById('form-register');
+
+registerForm.addEventListener('submit', e => {
+    e.preventDefault();
+
+    let createNewUser = {};
+
+    createNewUser.name = inputRegisterName.value;
+    createNewUser.email = inputRegisterEmail.value;
+    createNewUser.password = inputRegisterPassword.value;
+
+    register(createNewUser, userDB);
+});
+
+const inputRegisterName = document.getElementById("register-name");
+const inputRegisterEmail = document.getElementById("register-email");
+const inputRegisterPassword = document.getElementById("register-password");
