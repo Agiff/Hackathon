@@ -286,21 +286,21 @@ removeFromCart(currentUser, produkPilihan, userDB);
 
 // start of searh fiture
 
-function getUnique (arrayObat){
+function getUnique(arrayObat) {
   let result = [];
   for (let i = 0; i < arrayObat.length; i++) {
-    let flag = false;
-    for (let j = 0; j < result.length; j++) {
-      if (arrayObat[i] === result[j]) {
-        flag = true;
-        break;
+      let flag = false;
+      for (let j = 0; j < result.length; j++) {
+          if (arrayObat[i] === result[j]) {
+              flag = true;
+              break;
+          }
       }
-    }
-    if (flag) {
-      continue;
-    } else {
-      result.push(arrayObat[i])
-    }
+      if (flag) {
+          continue;
+      } else {
+          result.push(arrayObat[i])
+      }
   }
   return result;
 }
@@ -319,24 +319,43 @@ function nameToArray (input){
   return arrInput;
 }
 
-function searchName (input, listOfProduct){
+function cutWord (array, number){
+  let tampung = array;
+  let finalResult = [];
+  for (let i = 0; i < tampung.length; i++){
+      let tempString = '';
+      for (let j = 0; j < tampung[i].length; j++){
+          if (j === number){
+              finalResult.push(tempString);
+              tempString = '';
+          } else {
+              tempString += tampung[i][j];
+          }
+      }
+  }
+  return finalResult;
+}
+
+function searchName(input, listOfProduct) {
   let result = [];
   let inputList = nameToArray(input);
-  for (let i = 0; i < inputList.length; i++){
-    for (let j = 0; j < listOfProduct.length; j++){
-      let arrayNamaProduct = nameToArray (listOfProduct[j].name);
-      for (let k = 0; k < arrayNamaProduct.length; k++){
-        if (inputList[i] === arrayNamaProduct[k]){
-          result.push (listOfProduct[j])
-        }
+  for (let i = 0; i < inputList.length; i++) {
+      let number = inputList[i].length
+      for (let j = 0; j < listOfProduct.length; j++) {
+          let arrayNamaProduct = nameToArray(listOfProduct[j].name);
+          let arrayCut = cutWord(arrayNamaProduct, number);
+          for (let k = 0; k < arrayCut.length; k++) {
+              if (inputList[i] === arrayCut[k]) {
+                  result.push(listOfProduct[j])
+              }
+          }
       }
-    }
   }
   result = getUnique(result)
   return result;
 }
 
-// console.log (searchName('promag', productList))
+console.log (searchName('ear', productList))
 // console.log (nameToArray('Miconazole cream 2%'))
 
 //end of search fiture
@@ -370,7 +389,7 @@ function filterHarga (input, productList){
   return result
 }
 
-console.log (filterHarga('Tertinggi', productList))
+// console.log (filterHarga('Tertinggi', productList))
 
 //end of filter fiture
 
